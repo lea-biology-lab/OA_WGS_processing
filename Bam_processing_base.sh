@@ -9,6 +9,10 @@
 #SBATCH -e Bam_processing_round2_%A_%a.err
 #SBATCH --array=1-214%50
 
+#############################################
+## script created by Audrey Arner 		   ## 
+#############################################
+
 # define input
 barcode=`sed -n ${SLURM_ARRAY_TASK_ID}p /data/lea_lab/arneram/OA_files/OA_WGS_IDs_round2.txt`
 echo ${barcode}
