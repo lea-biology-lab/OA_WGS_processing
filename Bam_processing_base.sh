@@ -9,10 +9,6 @@
 #SBATCH -e Bam_processing_round2_%A_%a.err
 #SBATCH --array=1-214%50
 
-#############################################
-## script created by Audrey Arner 		   ## 
-#############################################
-
 # define input
 barcode=`sed -n ${SLURM_ARRAY_TASK_ID}p /data/lea_lab/arneram/OA_files/OA_WGS_IDs_round2.txt`
 echo ${barcode}
@@ -90,8 +86,10 @@ $in_gatk/gatk --java-options "-Xmx80g -Xms80g" HaplotypeCaller -R $in_genome -I 
 module purge
 module load GCC/5.4.0-2.26 tabix/0.2.6
 
-bgzip /nobackup/lea_lab/arneram/OA_WGS_2Dec24/VANP_TID0071_1_PB_WBC_C1_IDPFT_A14778_22GYWWLT4_ATGTTGTTGG_L007.hg38.g.vcf
-tabix -f -p vcf /nobackup/lea_lab/arneram/OA_WGS_2Dec24/VANP_TID0287_1_PB_WBC_C1_IDPFT_A14766_22GYWWLT4_GGTAGAATTA_L007.hg38.g.vcf.gz
+module purge
+module load GCC/5.4.0-2.26 tabix/0.2.6
+
+bgzip $out_g_vcf
+tabix -f -p vcf $out_g_vcf.gz
 
 zcat /nobackup/lea_lab/arneram/OA_WGS_2Dec24/${barcode}.hg38.g.vcf.gz | echo "$barcode $(wc -l)" >> /nobackup/lea_lab/arneram/OA_WGS_2Dec24/variants_gcf_round2.txt
-
